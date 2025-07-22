@@ -1,24 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { IncomeForm } from './components/IncomeForm';
+import ExpenseForm from "./components/ExpenseForm";
+import SavingForm from "./components/SavingForm";
+
+type Income = {
+  source: string;
+  amount: number;
+  date: string;
+};
 
 function App() {
+  const [incomes, setIncomes] = useState<Income[]>([]);
+
+  const handleAddIncome = (income: Income) => {
+    setIncomes([...incomes, income]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Budget Tracker</h1>
+      <IncomeForm handleAddIncome={handleAddIncome} />
+      <ExpenseForm />
+       <ul id="saving-list"></ul>
+      <SavingForm />
+      <ul id="expense-list"></ul>
+     
+     
+
+      
+      <ul>
+        {incomes.map((income, index) => (
+          <li key={index}>
+            {income.source} - ${income.amount} - {income.date}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
